@@ -28,13 +28,15 @@ scripts/
 tests/
   quality_checks_silver.sql
   quality_checks_gold.sql
+source_crm/                course sample data: cust_info.csv, prd_info.csv, sales_details.csv
+source_erp/                course sample data: CUST_AZ12.csv, LOC_A101.csv, PX_CAT_G1V2.csv
 ```
 
 ## How to run
 
 1. Run `scripts/init_database.sql`. **Warning:** it drops and recreates the `DataWarehouse` database if it already exists.
 2. Run the bronze and silver DDL scripts, then `scripts/gold/ddl_gold.sql`.
-3. In `proc_load_bronze.sql`, change the `C:\path\to\sql-server-data-warehouse\` prefix in each BULK INSERT to where the CSV files are on your machine.
+3. In `proc_load_bronze.sql`, each BULK INSERT path is `C:\path\to\sql-server-data-warehouse\datasets\source_crm\...` (or `source_erp\...`). Replace the prefix with the folder you cloned this repo into, and either remove `datasets\` from the paths (the CSVs sit in `source_crm\` and `source_erp\` at the repo root) or move those two folders into a `datasets` folder.
 4. Run `EXEC bronze.load_bronze;` then `EXEC silver.load_silver;`.
 5. Query the `gold` views and run the scripts in `tests/`.
 
